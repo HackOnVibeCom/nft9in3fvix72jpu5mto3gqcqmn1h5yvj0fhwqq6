@@ -43,3 +43,7 @@ Set these environment variables **in the organizer's server container environmen
 - `npx playwright install chromium` once, then `npm run test:e2e` after building
 
 With real Neon and GitHub credentials: apply the migration, sign in, confirm GitHub username/avatar and exactly one unpublished portfolio, sign out and confirm dashboard access redirects. Sign in again and verify the draft is retained. Check the production callback, HTTPS session cookies, expired sessions and container restart persistence. Unit tests use mocked database operations; they do not verify a live database or OAuth flow.
+
+### Phase 2 AI project analysis
+
+Set `GEMINI_API_KEY` in the server-side environment to enable AI project analysis. `GEMINI_MODEL` is optional and defaults to `gemini-3.5-flash-lite`. If the key is missing or Gemini cannot return valid structured output, SkillLoop uses its deterministic metadata analysis. Never put the Gemini key in browser code or commit it to the repository.
