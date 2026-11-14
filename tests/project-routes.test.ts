@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
-  user: vi.fn(), projectFindFirst: vi.fn(), projectFindUnique: vi.fn(), projectFindMany: vi.fn(), projectCreate: vi.fn(), projectUpdate: vi.fn(), projectDeleteMany: vi.fn(), analysisFindUnique: vi.fn(), analysisUpsert: vi.fn(), analysisUpdate: vi.fn(), requestCount: vi.fn(), requestCreate: vi.fn(), transaction: vi.fn(), githubJson: vi.fn(), resolveGithubIdentity: vi.fn(), manifestsFor: vi.fn(), readmeFor: vi.fn(), generateAnalysis: vi.fn(),
+  user: vi.fn(), projectFindFirst: vi.fn(), projectFindUnique: vi.fn(), projectFindMany: vi.fn(), projectCreate: vi.fn(), projectUpdate: vi.fn(), projectDeleteMany: vi.fn(), projectDelete: vi.fn(), portfolioFindMany: vi.fn(), portfolioUpdate: vi.fn(), analysisFindUnique: vi.fn(), analysisUpsert: vi.fn(), analysisUpdate: vi.fn(), requestCount: vi.fn(), requestCreate: vi.fn(), transaction: vi.fn(), githubJson: vi.fn(), resolveGithubIdentity: vi.fn(), manifestsFor: vi.fn(), readmeFor: vi.fn(), generateAnalysis: vi.fn(),
 }));
 vi.mock("server-only", () => ({}));
 vi.mock("@/lib/project-api", () => ({ projectUser: mocks.user, jsonError: (message: string, status = 400) => Response.json({ error: message }, { status }), sameOrigin: () => true }));
-vi.mock("@/lib/db", () => ({ getDb: () => ({ project: { findFirst: mocks.projectFindFirst, findUnique: mocks.projectFindUnique, findMany: mocks.projectFindMany, create: mocks.projectCreate, update: mocks.projectUpdate, deleteMany: mocks.projectDeleteMany }, projectAnalysis: { findUnique: mocks.analysisFindUnique, upsert: mocks.analysisUpsert, update: mocks.analysisUpdate }, analysisRequest: { count: mocks.requestCount, create: mocks.requestCreate }, $transaction: mocks.transaction }) }));
+vi.mock("@/lib/db", () => ({ getDb: () => ({ project: { findFirst: mocks.projectFindFirst, findUnique: mocks.projectFindUnique, findMany: mocks.projectFindMany, create: mocks.projectCreate, update: mocks.projectUpdate, deleteMany: mocks.projectDeleteMany }, portfolio: { findMany: mocks.portfolioFindMany, update: mocks.portfolioUpdate }, projectAnalysis: { findUnique: mocks.analysisFindUnique, upsert: mocks.analysisUpsert, update: mocks.analysisUpdate }, analysisRequest: { count: mocks.requestCount, create: mocks.requestCreate }, $transaction: mocks.transaction }) }));
 vi.mock("@/lib/projects", () => ({ githubApi: "https://api.github.com", githubJson: mocks.githubJson, isPublicOwnedRepo: (repo: { private: boolean; owner: { login: string } }, login: string) => !repo.private && repo.owner.login.toLowerCase() === login.toLowerCase(), manifestsFor: mocks.manifestsFor, parseRepo: (repo: unknown) => repo, readmeFor: mocks.readmeFor, resolveGithubIdentity: mocks.resolveGithubIdentity, generateAnalysis: mocks.generateAnalysis }));
 
 import { GET as discoverRepos, POST as discoverImport } from "@/app/api/projects/repositories/route";
@@ -28,12 +28,15 @@ beforeEach(() => {
   mocks.projectFindMany.mockResolvedValue([]);
   mocks.projectCreate.mockResolvedValue(project);
   mocks.projectDeleteMany.mockResolvedValue({ count: 1 });
+  mocks.projectDelete.mockResolvedValue(project);
+  mocks.portfolioFindMany.mockResolvedValue([]);
+  mocks.portfolioUpdate.mockResolvedValue({});
   mocks.analysisFindUnique.mockResolvedValue(null);
   mocks.analysisUpsert.mockResolvedValue({ ...analysis, approved: false });
   mocks.analysisUpdate.mockResolvedValue({ ...analysis, approved: true, approvedTitle: "Approved title", approvedSummary: "Approved description that must persist after approval." });
   mocks.requestCount.mockResolvedValue(0);
   mocks.requestCreate.mockResolvedValue({});
-  mocks.transaction.mockImplementation(async (callback: (tx: unknown) => unknown) => callback({ analysisRequest: { count: mocks.requestCount, create: mocks.requestCreate }, projectAnalysis: { findUnique: mocks.analysisFindUnique, upsert: mocks.analysisUpsert } }));
+  mocks.transaction.mockImplementation(async (callback: (tx: unknown) => unknown) => callback({ analysisRequest: { count: mocks.requestCount, create: mocks.requestCreate }, projectAnalysis: { findUnique: mocks.analysisFindUnique, upsert: mocks.analysisUpsert }, portfolio: { findMany: mocks.portfolioFindMany, update: mocks.portfolioUpdate }, portfolioProject: { deleteMany: vi.fn() }, project: { delete: mocks.projectDelete } }));
   mocks.githubJson.mockResolvedValue([]);
   mocks.resolveGithubIdentity.mockResolvedValue({ id: "123", login: "owner", avatarUrl: "https://avatars.githubusercontent.com/u/123" });
   mocks.manifestsFor.mockResolvedValue({}); mocks.readmeFor.mockResolvedValue("README");
@@ -72,7 +75,7 @@ describe("project API acceptance boundaries", () => {
     ]);
     expect(responses.map(response => response.status)).toEqual([404, 404, 404, 404]);
     expect(mocks.projectFindFirst).toHaveBeenCalledWith(expect.objectContaining({ where: { id: "p1", ownerId: "u1" } }));
-    expect(mocks.projectDeleteMany).toHaveBeenCalledWith({ where: { id: "p1", ownerId: "u1" } });
+    expect(mocks.projectDelete).not.toHaveBeenCalled();
   });
 
   it("returns the existing row for repeated and concurrent duplicate imports", async () => {

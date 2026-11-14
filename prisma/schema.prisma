@@ -55,13 +55,30 @@ model Portfolio {
   id String @id @default(cuid())
   userId String @unique
   slug String @unique
+  publishedSlug String? @unique
   displayName String
   headline String @default("")
   biography String @default("")
+  location String?
+  linkedinUrl String?
+  websiteUrl String?
+  selectedProjects PortfolioProject[]
+  publishedSnapshot Json?
+  publishedAt DateTime?
   published Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+model PortfolioProject {
+  portfolioId String
+  projectId String
+  position Int
+  portfolio Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  @@id([portfolioId, projectId])
+  @@unique([portfolioId, position])
+  @@index([projectId])
 }
 model Project {
   id String @id @default(cuid())
@@ -84,6 +101,7 @@ model Project {
   refreshedAt DateTime?
   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   analysis ProjectAnalysis?
+  portfolioSelections PortfolioProject[]
   @@unique([ownerId, githubRepositoryId])
   @@index([ownerId, importedAt])
 }
