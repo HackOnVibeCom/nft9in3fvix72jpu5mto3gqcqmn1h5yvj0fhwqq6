@@ -1,24 +1,25 @@
-# Hackathon demo script (3–5 minutes)
+# Five-minute product demonstration
 
-Use the live app at <https://skillloop-gamma.vercel.app>. Have a test GitHub account and a suitable public repository ready. OAuth and Gemini require working deployment credentials. If a live step is unavailable, use the prepared staging portfolio and clearly identify its analytics as staging/demo data, never customer traction.
+**Production app:** <https://skillloop-gamma.vercel.app>
+**Example public portfolio:** <https://skillloop-gamma.vercel.app/p/drowsei>
 
-| Time | Screen | Narration / action |
+Prepare before recording: sign in using an authorized demo GitHub account; have one suitable public repository ready; complete its analysis and approval; prepare a published portfolio; and open its Analytics page. Keep an authenticated dashboard tab ready so the five-minute recording does not depend on a fresh OAuth round trip or slow AI response. Never show credentials, private environment files, OAuth tokens, cookies, private repositories, or personal account details.
+
+| Time | Screen and action | Spoken narration |
 | --- | --- | --- |
-| 0:00–0:20 | Title / homepage | “Developers ship real work, but a repository list rarely explains the decisions or value behind it. SkillLoop turns that work into a reviewable portfolio.” |
-| 0:20–0:40 | Homepage | Point out the public GitHub source, owner review, Gemini assistance, and sharing loop. “Only public repositories are imported, and the owner approves descriptions before publication.” |
-| 0:40–1:00 | GitHub sign-in | Choose **Sign in with GitHub** and complete OAuth. Do not show tokens or browser developer tools. |
-| 1:00–1:25 | Overview → Projects | Import a public repository owned by the demo account. Show the repository metadata and available evidence. |
-| 1:25–1:55 | Project analysis | Generate a description. Explain that Gemini may draft from public context and a deterministic metadata fallback is available; review and edit the text, then approve it. |
-| 1:55–2:25 | Portfolio | Set a headline/profile, select approved work, reorder it, save the private draft, and use Preview. Show the explicit private-preview label. |
-| 2:25–2:45 | Publish | Publish the portfolio and open the public snapshot. Explain that draft edits do not silently replace the published version. |
-| 2:45–3:15 | Public portfolio | Show profile, featured repository details, and the prominent “Create your own portfolio” CTA. Point out that it passes through the referral route; footer attribution remains. |
-| 3:15–3:40 | Analytics | Show views and CTA clicks as browser-days, referred registrations, the rate definition, publication status, and the $0 paid-spend assumption. State any displayed numbers are staging/demo data unless independently verified as real users. |
-| 3:40–4:10 | Close | “SkillLoop makes a developer's public work easier to understand and share. Each portfolio can introduce the next developer, creating a measurable organic acquisition loop.” |
+| 0:00–0:30 | Production homepage. Introduce SkillLoop and point to the GitHub sign-in and workflow summary. | “A GitHub profile can show a list of repositories, but it often leaves the developer to explain what the work means. SkillLoop turns public projects into a portfolio that the developer can shape, review, and share.” |
+| 0:30–1:00 | Dashboard → Projects. Show the imported public repository and its available project evidence. | “I connect with GitHub and import public repositories associated with my account. SkillLoop gathers public project context to help make the work easier to understand.” |
+| 1:00–1:40 | Open one project analysis. Show the generated title and summary; make a small edit and point out approval. | “Gemini can draft a structured description from repository evidence. The developer stays in control: every description can be reviewed, edited, and approved before it is eligible for the portfolio. If Gemini is unavailable, the app has a metadata-based fallback.” |
+| 1:40–2:30 | Dashboard → Portfolio. Show profile fields and project selection/order, then private preview. | “I choose the profile details and approved projects I want to feature. I can preview the draft privately before publishing it.” |
+| 2:30–3:05 | Publish, then open the public portfolio URL. Show a featured project and explain the published snapshot. | “Publishing creates a shareable public portfolio. The published page presents the selected work, while draft edits remain under the owner's control until the next publish.” |
+| 3:05–3:40 | Scroll to the built-in CTA. Point to “Create your own portfolio.” | “Each portfolio includes an invitation for visitors to build one of their own. A valid referral is signed and can attribute a genuinely new GitHub registration to the latest eligible click for up to 30 days.” |
+| 3:40–4:30 | Dashboard → Analytics. Show views, CTA clicks, referred registrations, and the rate definition. | “The owner can see the acquisition path. Views and clicks are pseudonymous browser-days, not verified people. Registrations count eligible new accounts, so this ratio is directional and is not a same-person conversion cohort. These controlled acceptance figures demonstrate that the flow works; they are not customer traction.” |
+| 4:30–5:00 | Return to public portfolio or homepage for the close. | “SkillLoop helps developers turn public work into a portfolio they can explain and share. Every shared portfolio can help the next developer get discovered. We have implemented and tested that acquisition mechanism; proving sustainable zero-CAC growth at scale is future work.” |
 
-## Fallback demo data
+## Analytics evidence
 
-The owner reported a staging portfolio with six view browser-days and one CTA click before the latest referral test, then reported that a referral test worked. This report alone does not establish a genuine new-user conversion. Recheck the owner dashboard in staging before the demo and describe any result as staging test data. Do not present staging counts as customers, traction, or revenue.
+Use the production Analytics screen if it shows the acceptance state you intend to discuss. If using a prepared staging screen or recorded acceptance capture, label it clearly as **controlled staging test data**. The reported final staging test showed 2 view browser-days, 2 CTA click browser-days, and 1 referred registration; these are test events, not customer counts or commercial traction. Production acceptance is reported as 10/10 checks passed, but do not imply that those checks represent customer adoption.
 
-## Safety
+## Recording fallback
 
-Do not expose credentials, OAuth cookies, private repositories, or production database tooling during recording. Do not create an external account solely to claim a successful signup unless the account owner is authorized and present. If OAuth cannot be completed, explain the flow and use an already authenticated staging session without implying live OAuth verification.
+The live app is the primary demonstration. If a time-sensitive provider response is slow, use the prepared dashboard and portfolio state, explain the step, and label any staging/test screen. Do not imply a live sign-up occurred during the recording if you did not perform one. Do not create accounts or claim customer activity solely to improve the demo.

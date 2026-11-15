@@ -1,62 +1,95 @@
-# Submission copy
+# HackOnVibe submission answers
+
+Reusable copy for the **HackOnVibe November 2026** questionnaire. The authenticated questionnaire fields have not been inspected; adapt these answers to the actual field labels and limits.
 
 ## Project name
 
 SkillLoop
 
-## One-line elevator pitch
+## Team
 
-Turn public GitHub projects into a polished, reviewable developer portfolio that can help the next developer get discovered.
+Great Elites
 
-## Short description
+## Challenge
 
-SkillLoop helps developers explain and share the work behind their skills. It imports public repositories, uses Gemini when configured to draft project descriptions (with a metadata-based fallback), and lets each developer review and approve the work before publishing a portfolio.
+Zero-CAC IT Product
 
-## Detailed description
+## One-sentence pitch
 
-Developers often have meaningful work on GitHub but no concise portfolio that tells its story. SkillLoop connects through GitHub OAuth, discovers repositories owned by that account, collects public project context, and drafts evidence-based descriptions. Developers retain control: they can edit and approve each description, choose featured projects, preview privately, and publish a snapshot when ready. Each public portfolio has an invitation for visitors to create their own portfolio, creating an organic sharing loop measured through privacy-conscious browser-day events and signed referral attribution.
+SkillLoop turns public GitHub projects into polished, owner-reviewed developer portfolios that help developers explain and share their work.
 
-## Problem and solution
+## Problem statement
 
-Repository lists show code but leave context and communication to the developer. SkillLoop creates a professional presentation from public repository evidence and owner-approved descriptions, then makes it easy to share.
+Developers often have useful public work but no concise way to explain a project's purpose, decisions, and evidence. A repository list or résumé can leave that context hidden, while writing project case studies takes time.
 
-## Technical stack
+## Target audience
 
-Next.js App Router, React, TypeScript, NextAuth GitHub OAuth, GitHub API, optional Gemini analysis with deterministic fallback, Prisma, PostgreSQL/Neon, Vitest, Playwright, and Vercel hosting.
+Developers who want to present their public software projects to recruiters, clients, collaborators, peers, or developer communities.
 
-## Innovation
+## Solution
 
-SkillLoop combines public repository context, AI-assisted but owner-approved storytelling, a private-to-public snapshot workflow, and referral attribution embedded in the portfolio-sharing journey.
+SkillLoop connects through GitHub OAuth, imports public repositories tied to the authenticated account, and uses repository evidence to draft project descriptions. The developer can edit and approve every description, select projects, preview privately, and publish a shareable portfolio.
 
-## Zero-CAC growth mechanism
+## Main features
 
-Portfolio owners share their pages. Viewers can use a prominent referral-aware invitation to make their own. Signed 30-day last-click attribution connects eligible new registrations to published portfolios; analytics count deduplicated view/click browser-days. This is an organic strategy, not proof that measured CAC or operating costs are zero. See [ZERO-CAC.md](./ZERO-CAC.md).
+- Secure GitHub OAuth and private workspace.
+- Public GitHub repository importing and project evidence collection.
+- Gemini-assisted project analysis, with a metadata fallback; user review, editing, and approval.
+- Portfolio editing, project selection and ordering, private preview, publishing, and shareable public pages.
+- Built-in referral CTA and signed last-valid-click attribution for eligible new registrations.
+- Owner-scoped, privacy-conscious analytics for browser-day views/clicks and unique referred registrations.
 
-## Business model
+## Zero-CAC acquisition mechanism
 
-No revenue or paid plan is claimed. Future possibilities include custom domains, premium presentation options, or team plans, subject to validation.
+A developer imports projects, creates and publishes a portfolio, then shares it. Visitors can discover SkillLoop through the portfolio's built-in CTA and register to create their own portfolio. Signed attribution connects eligible new registrations to the latest valid click for up to 30 days. This demonstrates an implemented organic acquisition mechanism; it does not prove sustainable zero-CAC growth at scale. `$0 reported` paid spend is not a claim of zero hosting, AI, infrastructure, or operating costs.
 
-## Live application
+## Customer journey
 
-<https://skillloop-gamma.vercel.app>
+GitHub sign-in → import public repositories → review and approve project descriptions → select projects and edit the portfolio → preview privately → publish and share → visitors follow the portfolio CTA → eligible new developers register and can publish portfolios of their own.
 
-## Repository
+## Technology stack
+
+Next.js App Router, React, TypeScript, NextAuth, GitHub OAuth and API, optional server-side Gemini API, Prisma, PostgreSQL (Neon in production), and Vercel hosting. Automated coverage uses Vitest and Playwright.
+
+## Meaningful AI integration
+
+When configured, Gemini produces structured project descriptions from public repository evidence. AI output is a draft: developers can inspect, edit, and approve it before publication. If the provider is unavailable, the application uses a metadata-based fallback. The product does not claim that AI independently verifies authorship or mastery.
+
+## Security and privacy
+
+Authentication uses GitHub OAuth. Provider credentials and tokens, AI keys, and database credentials remain server-side. Only public repositories are imported. Public portfolio content is published by the owner; private drafts require authentication. Referral attribution uses a signed, expiring HttpOnly cookie and rejects invalid cookies, unpublished sources, self-referrals, existing users, and duplicate conversions. Analytics uses pseudonymous browser-day identifiers and is not represented as verified people-level tracking.
+
+## Business and monetization potential
+
+No revenue, paying customers, partnership, or validated market demand is claimed. Potential future revenue could come from custom domains, advanced portfolio presentation, or team and career-service plans. These are hypotheses for future validation, not current paid features or committed pricing. Hosting, AI, and operating costs remain even when paid acquisition spend is `$0 reported`.
+
+## Competitive differentiation
+
+SkillLoop combines public project evidence, AI-assisted but owner-controlled storytelling, private preview and publish snapshots, and a referral CTA in one developer workflow. Public GitHub metadata does not independently establish individual authorship; owners remain responsible for their descriptions and portfolio choices.
+
+## Implemented functionality and future improvements
+
+**Implemented:** GitHub OAuth, public repository import, AI-assisted analysis and fallback, owner editing/approval, portfolio editing and project selection, private preview, public publishing/sharing, referral attribution, and owner analytics.
+
+**Future improvements:** investigate repeat-click count discrepancies; improve bot and multi-instance rate-limit handling; add referral publication outcome and cohort analysis; build a complete acquisition cost ledger; and validate monetization options. No referred-user publication outcome or complete CAC ledger is currently tracked.
+
+## Live application and example portfolio
+
+- Production application: <https://skillloop-gamma.vercel.app>
+- Example public portfolio: <https://skillloop-gamma.vercel.app/p/drowsei>
+
+## Official repository
 
 <https://github.com/HackOnVibeCom/nft9in3fvix72jpu5mto3gqcqmn1h5yvj0fhwqq6>
 
-## Known limitations
+## Testing and release status
 
-- OAuth and Gemini live availability depend on deployment credentials and were not independently verified in this local sprint.
-- Browser-day analytics are estimates, not counts of verified people; attribution and click/registration denominators differ.
-- Request throttling is process-local, not globally coordinated.
-- Referral publication outcomes and a complete acquisition cost ledger are not tracked.
-- The Phase 4 migration was reported applied to staging; it has not been applied to production by this work.
+Reported final automated checks: 100 unit tests across 21 files, 22 Playwright tests, lint, typecheck, Prisma validation, and production build passed. The final application release is reported as commit `c232453`; a clean archive was deployed to Vercel production. All four Prisma migrations were reported applied to production, and the project owner confirmed 10/10 production acceptance checks. Genuine GitHub OAuth referral registration was verified in staging and production. These are release/acceptance results, not evidence of customer traction. The live endpoints and deployment metadata could not be independently checked from this documentation audit.
 
-## Final submission checklist
+## Demonstration video
 
-- [ ] Confirm the demo URL and OAuth on the intended deployment.
-- [ ] Confirm staging test data is labeled as staging and is not described as traction.
-- [ ] Review final commit and deployment diff; preserve the organizer workflow and files.
-- [ ] Record the demo using [DEMO.md](./DEMO.md), with no secrets or private data visible.
-- [ ] Confirm the submission form text, repository visibility, and deadline requirements.
-- [ ] Submit manually before Sunday, November 15, 2026, 12:00 noon WAT.
+**Placeholder — upload the recorded five-minute demonstration, then replace this line with its shareable URL.** Do not submit this placeholder as a video link.
+
+## Submission status
+
+HackOnVibe's “Publish to GitHub” milestone is reported Completed. Questionnaire completion, video upload, and final hackathon submission remain outstanding. The dashboard deadline is November 15, 2026, 11:59 PM WAT.
