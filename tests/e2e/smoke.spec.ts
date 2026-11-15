@@ -2,6 +2,9 @@ import { expect, test } from "@playwright/test";
 test("landing and login render without overflow", async ({ page }, testInfo) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Turn your projects into proof of your skills." })).toBeVisible();
+  await expect(page.getByText(/turns your public GitHub repositories into a polished developer portfolio/i)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "AI that helps you explain the work" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "A portfolio built to travel" })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.screenshot({ path: testInfo.outputPath("landing.png"), fullPage: true });
   await page.getByRole("link", { name: "Sign in with GitHub" }).click();

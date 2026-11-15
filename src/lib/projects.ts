@@ -1,7 +1,7 @@
 import "server-only";
 import { z } from "zod";
 import { GoogleGenAI, Type } from "@google/genai";
-import { getDb } from "./db";
+export { resolveGithubIdentity } from "./github-identity";
 
 const repoSchema = z.object({ id: z.number().int().positive(), name: z.string(), full_name: z.string(), description: z.string().nullable(), html_url: z.string().url(), private: z.boolean(), fork: z.boolean(), language: z.string().nullable(), stargazers_count: z.number().int().nonnegative(), forks_count: z.number().int().nonnegative(), created_at: z.string(), updated_at: z.string(), owner: z.object({ login: z.string() }) });
 export const analysisSchema = z.object({ title: z.string().min(3).max(120), summary: z.string().min(20).max(1200), purpose: z.string().min(10).max(600), features: z.array(z.string().min(2).max(180)).max(12), technologies: z.array(z.string().min(1).max(80)).max(20), skills: z.array(z.string().min(2).max(180)).max(12), evidence: z.array(z.object({ claim: z.string().min(2).max(180), reference: z.string().min(1).max(200) })).max(20) }).strict();
@@ -31,7 +31,6 @@ const geminiAnalysisSchema = {
   required: ["title", "summary", "purpose", "features", "technologies", "skills", "evidence"],
 };
 const API = "https://api.github.com";
-const githubIdentitySchema = z.object({ id: z.number().int().positive(), login: z.string().min(1).max(39), avatar_url: z.url().refine(value => new URL(value).hostname === "avatars.githubusercontent.com") });
 export async function githubJson<T>(url: string, token?: string): Promise<T> {
   const response = await fetch(url, { headers: { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", ...(token ? { Authorization: `Bearer ${token}` } : {}) }, signal: AbortSignal.timeout(10000), cache: "no-store" });
   if (response.status === 404) throw new Error("Repository not found or no longer public.");
@@ -41,29 +40,6 @@ export async function githubJson<T>(url: string, token?: string): Promise<T> {
 }
 export function parseRepo(value: unknown) { return repoSchema.parse(value); }
 export function isPublicOwnedRepo(repo: ReturnType<typeof parseRepo>, login: string) { return !repo.private && repo.owner.login.toLowerCase() === login.toLowerCase(); }
-/** Resolve identity through NextAuth's server-side GitHub Account association.
- * Older Phase 1 sessions/users may not have the denormalized User.githubUsername
- * populated, so verify the linked account with its existing OAuth token. */
-export async function resolveGithubIdentity(userId: string) {
-  const db = getDb();
-  const account = await db.account.findFirst({ where: { userId, provider: "github" }, select: { providerAccountId: true, access_token: true } });
-  if (!account) return null;
-  let profile: z.infer<typeof githubIdentitySchema> | null = null;
-  if (account.access_token) {
-    try { profile = githubIdentitySchema.parse(await githubJson<unknown>(`${API}/user`, account.access_token)); }
-    catch { profile = null; }
-  }
-  if (profile && String(profile.id) !== account.providerAccountId) return null;
-  if (!profile) {
-    const user = await db.user.findUnique({ where: { id: userId }, select: { githubUsername: true } });
-    if (!user?.githubUsername) return null;
-    try { profile = githubIdentitySchema.parse(await githubJson<unknown>(`${API}/users/${encodeURIComponent(user.githubUsername)}`)); }
-    catch { return null; }
-    if (String(profile.id) !== account.providerAccountId) return null;
-  }
-  await db.user.update({ where: { id: userId }, data: { githubUsername: profile.login, image: profile.avatar_url } });
-  return { id: String(profile.id), login: profile.login, avatarUrl: profile.avatar_url };
-}
 export async function readmeFor(fullName: string, token?: string) {
   try { const data = await githubJson<{ content?: string; encoding?: string }>(`${API}/repos/${fullName}/readme`, token); return data.encoding === "base64" && data.content ? Buffer.from(data.content, "base64").toString("utf8").slice(0, 12000) : null; } catch { return null; }
 }

@@ -11,7 +11,7 @@ vi.mock("../src/lib/db", () => ({ getDb: () => ({
   user: { findUnique: userFindUnique, update: userUpdate },
 }) }));
 
-import { resolveGithubIdentity } from "../src/lib/projects";
+import { resolveGithubIdentity } from "../src/lib/github-identity";
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -46,6 +46,15 @@ describe("GitHub identity for existing Phase 1 accounts", () => {
       data: { githubUsername: "jane-dev", image: "https://avatars.githubusercontent.com/u/12345" },
     });
     expect(userFindUnique).not.toHaveBeenCalled();
+    vi.unstubAllGlobals();
+  });
+
+  it("rejects a linked account that differs from the OAuth callback account", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    await expect(resolveGithubIdentity("phase1-user-id", "different-provider-account")).resolves.toBeNull();
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(userUpdate).not.toHaveBeenCalled();
     vi.unstubAllGlobals();
   });
 });

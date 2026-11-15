@@ -21,7 +21,7 @@ test("mocked portfolio editor saves profiles, orders approved work and previews 
   expect(projectHeadings).toEqual(["Second approved project", "First approved project"]);
 });
 
-test("mocked publish flow keeps draft changes private until republished, supports sharing and unpublishes", async ({ page }) => {
+test("mocked publish flow keeps draft changes private until republished, supports sharing and unpublishes", async ({ page }, testInfo) => {
   await page.goto(fixture);
   await page.getByRole("checkbox", { name: "Include jane/one" }).check();
   await page.getByRole("checkbox", { name: "Include jane/two" }).check();
@@ -31,7 +31,11 @@ test("mocked publish flow keeps draft changes private until republished, support
   await page.getByRole("button", { name: "Public portfolio" }).click();
   await expect(page.getByRole("heading", { name: "Jane Developer" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Second approved project" })).toBeVisible();
+  const growthCta = page.getByRole("link", { name: "Create your own portfolio", exact: true });
+  await expect(growthCta).toHaveAttribute("href", "/api/referrals/click?code=fixture-referral-code");
+  await expect(page.getByRole("link", { name: "Made with SkillLoop — Create your own portfolio" })).toHaveAttribute("href", "/api/referrals/click?code=fixture-referral-code");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath("public-portfolio-desktop.png"), fullPage: true });
 
   await page.getByRole("button", { name: "Editor", exact: true }).click();
   await page.getByLabel("Display name").fill("Jane Updated");
@@ -56,6 +60,21 @@ test("mocked publish flow keeps draft changes private until republished, support
   await expect(page.getByRole("status")).toContainText("Portfolio unpublished");
   await page.getByRole("button", { name: "Public portfolio" }).click();
   await expect(page.getByRole("heading", { name: "Portfolio not found" })).toBeVisible();
+});
+
+test("public portfolio growth CTA is visible and usable on a narrow mobile viewport", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto(fixture);
+  await page.getByRole("checkbox", { name: "Include jane/one" }).check();
+  await page.getByRole("button", { name: "Publish portfolio" }).click();
+  await expect(page.getByRole("status")).toContainText("Portfolio published");
+  await page.getByRole("button", { name: "Public portfolio" }).click();
+  const cta = page.getByRole("link", { name: "Create your own portfolio", exact: true });
+  await expect(cta).toBeVisible();
+  await cta.focus();
+  await expect(cta).toBeFocused();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath("public-portfolio-mobile.png"), fullPage: true });
 });
 
 test("mocked share control falls back to copying the published link", async ({ page }) => {
