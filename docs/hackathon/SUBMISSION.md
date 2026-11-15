@@ -1,6 +1,6 @@
 # HackOnVibe submission answers
 
-Reusable copy for the **HackOnVibe November 2026** questionnaire. The authenticated questionnaire fields have not been inspected; adapt these answers to the actual field labels and limits.
+Final reusable project information for the **HackOnVibe November 2026** submission. The questionnaire, demonstration video, and live application were accepted by HackOnVibe on November 15, 2026. This records submission acceptance only; it does not claim that judging has concluded or that the team won.
 
 ## Project name
 
@@ -88,8 +88,8 @@ Reported final automated checks: 100 unit tests across 21 files, 22 Playwright t
 
 ## Demonstration video
 
-**Placeholder — upload the recorded five-minute demonstration, then replace this line with its shareable URL.** Do not submit this placeholder as a video link.
+[Watch the five-minute SkillLoop demonstration](https://youtu.be/bjkDj-HEb9A)
 
 ## Submission status
 
-HackOnVibe's “Publish to GitHub” milestone is reported Completed. Questionnaire completion, video upload, and final hackathon submission remain outstanding. The dashboard deadline is November 15, 2026, 11:59 PM WAT.
+HackOnVibe accepted the questionnaire, demonstration video, and live application on November 15, 2026. The “Publish to GitHub” milestone is completed. Judging has not been reported as concluded, and no competition result is claimed.

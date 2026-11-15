@@ -1,40 +1,45 @@
-# Release and submission readiness
+# Release and submission record
 
-## Final release record
+## Completed production release
 
-The project owner reports that the production release is complete:
+- All five development phases are complete.
+- Production application release `c232453` is deployed on Vercel: <https://skillloop-gamma.vercel.app>.
+- All four production Prisma migrations were applied successfully.
+- Automated verification passed: 100 unit tests and 22 Playwright tests.
+- Production acceptance passed all 10/10 checks.
+- Genuine GitHub OAuth referral registration was verified in staging and production. Existing-user repeat sign-in did not create duplicate conversions; GitHub username and avatar synchronization were verified.
 
-- Application release: commit `c232453`.
-- Production URL: <https://skillloop-gamma.vercel.app>.
-- Deployment: successful Vercel production deployment from a clean Git archive of `c232453`; deployment completed in 53 seconds and included `releaseCommit` metadata.
-- Database: all four Prisma migrations were applied to production.
-- Production acceptance: 10/10 checks passed, confirmed by the project owner.
-- Genuine GitHub OAuth referral registration was verified in staging and production. Existing-user repeat sign-in did not create duplicate conversions. GitHub username and avatar synchronization were also verified.
-- HackOnVibe's “Publish to GitHub” milestone is marked Completed.
+## Completed HackOnVibe submission
 
-These are project-owner-provided release results. This workspace did not access the production database or Vercel deployment records. The live site and example page could not be independently fetched with the available browsing tool during this documentation audit.
+HackOnVibe confirmed acceptance on November 15, 2026. The submitted live application and recorded demonstration video were accepted, and all five questionnaire answers were completed.
+
+- Live application: <https://skillloop-gamma.vercel.app>
+- Demonstration video: <https://youtu.be/bjkDj-HEb9A>
+- “Publish to GitHub” milestone: Completed.
+- Submission status: Accepted by HackOnVibe on November 15, 2026.
+
+HackOnVibe confirmed that external Vercel hosting is acceptable for this server-rendered application. The historically failing organizer deployment workflow does not affect judging eligibility. The organizer workflow `.github/workflows/deploy.yml` remains unchanged.
+
+**Judging, results, and awards are not marked complete here.** Await HackOnVibe's official judging outcome; acceptance of the submission is not a competition result.
 
 ## Historical deployment notes
 
-The organizer workflow `.github/workflows/deploy.yml` has historically failed its publication verification. The official repository push nevertheless succeeded, and HackOnVibe marks “Publish to GitHub” Completed. The organizers previously recommended external Vercel hosting for server-rendered applications; the application is hosted at the production URL above. The organizer workflow is preserved and was not modified.
+The organizer workflow's publication verification has failed historically. The official repository push succeeded, HackOnVibe marked “Publish to GitHub” Completed, and the organizers confirmed external Vercel hosting is acceptable. The production release was deployed from a clean Git archive of commit `c232453`, completed in 53 seconds, with `releaseCommit` metadata.
 
-Historical engineering notes in [HANDOFF.md](./HANDOFF.md) describe earlier staging-only and pre-deployment states. Those notes are retained as history; the final release record above supersedes their pending-release statements.
+Historical engineering notes in [HANDOFF.md](./HANDOFF.md) describe earlier staging-only and pre-deployment states. They are retained as engineering history; the completed production release and accepted-submission records above supersede their earlier pending status.
 
-## Remaining human actions
+## Operational recommendations
 
-- Record the five-minute product demonstration using [DEMO.md](./DEMO.md), then upload it and replace the placeholder in [SUBMISSION.md](./SUBMISSION.md).
-- Complete the HackOnVibe questionnaire using the reusable answers in [SUBMISSION.md](./SUBMISSION.md). The authenticated questionnaire fields have not been inspected, so map the answers to the actual fields yourself.
-- Review the final materials and submit the entry before the dashboard deadline: November 15, 2026, 11:59 PM WAT. Submission and demo recording remain outstanding; neither is marked complete here.
+These are ongoing product/operations considerations, not release or submission blockers:
 
-## Preserved known product limitations
-
-- Analytics counts are pseudonymous browser-days, not verified unique people; bot filtering is user-agent based.
+- Investigate the repeat-CTA-click discrepancy observed during staging acceptance. A repeat click increased the count in the same browser session.
+- Keep in mind analytics views and clicks are pseudonymous browser-days, not verified unique people; bot filtering is user-agent based.
 - Request rate limiting is best-effort and per process.
-- Cookie changes can affect visitor deduplication. A repeat CTA click increased the count within one browser session during staging acceptance; that discrepancy remains for future investigation.
-- Referral registration deduplication passed. Referred-user portfolio publication outcomes are not tracked.
+- Cookie changes can affect visitor deduplication.
+- Referral registration deduplication passed; referred-user publication outcomes are not tracked.
 - Public repository metadata does not independently prove individual authorship.
 - Referral attribution uses the last valid CTA click within 30 days.
 
-## Workflow and files
+## Preserved files and deployment workflow
 
-The release process did not require changing the organizer workflow. `hello.txt`, `index.html`, and the original README text are also preserved. This documentation audit changes only files in `docs/hackathon/`; it does not run migrations, access or modify production data, redeploy, commit, push, or submit the project.
+The organizer workflow, `hello.txt`, `index.html`, and the original README content are preserved. No production database operation or redeployment is part of this documentation update; no commit or push has been made.

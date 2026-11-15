@@ -22,7 +22,7 @@ The project owner reports the final application release and production acceptanc
 
 These final deployment and acceptance details are owner-provided release facts. This documentation audit did not access production, query databases, or inspect Vercel deployment records. The live URLs could not be independently fetched with the available browsing tool. The official repository URL is the supplied project URL.
 
-**Still outstanding:** record and upload the five-minute demonstration, complete the authenticated questionnaire, and submit the hackathon entry. The dashboard deadline is November 15, 2026, 11:59 PM WAT. None of those human actions is marked complete.
+**HackOnVibe acceptance:** The questionnaire, demonstration video, and live application were accepted on November 15, 2026. Demonstration video: <https://youtu.be/bjkDj-HEb9A>. This records acceptance of the submission materials; it does not claim that judging has concluded or that the team won.
 
 ## Product and growth summary
 
@@ -66,9 +66,6 @@ The initial Secure-cookie adjustment did not resolve the earlier staging failure
 - [Architecture](./ARCHITECTURE.md)
 - [Release readiness and remaining human actions](./RELEASE-CHECKLIST.md)
 
-## Final human actions
+## Submission record
 
-1. Record the five-minute script in [DEMO.md](./DEMO.md) on the production application. Keep credentials and personal authentication details out of frame; label any staging figures as test data.
-2. Upload the video and replace the explicit placeholder in [SUBMISSION.md](./SUBMISSION.md).
-3. Complete the actual HackOnVibe questionnaire using the reusable answers in [SUBMISSION.md](./SUBMISSION.md); its authenticated field names have not been inspected here.
-4. Review the answers and video, then submit manually before the dashboard deadline. Do not treat “Publish to GitHub” completion as hackathon submission completion.
+Questionnaire, demonstration video, and live application accepted by HackOnVibe on November 15, 2026. The project team has not claimed a competition win or that judging has concluded.
